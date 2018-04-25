@@ -1,0 +1,13 @@
+name: ghsign
+version: "0.1.0"
+author: Jared Fowler <jared.a.fowler@gmail.com>
+about: sign with github keys
+args:
+    - sign:
+        help: sign data with user's github public key
+        takes_value: true
+        short: s
+    - verify:
+        help: verify data sent to user encrypted with their gh public key
+        takes_value: true
+        short: e
