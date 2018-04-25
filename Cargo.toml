@@ -1,0 +1,8 @@
+[package]
+name = "ghsign"
+version = "0.1.0"
+authors = ["jaredfowler <jared.a.fowler@gmail.com>"]
+
+[dependencies]
+request = "0.0.7"
+clap = "2.31.2"
