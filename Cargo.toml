@@ -5,6 +5,7 @@ authors = ["jaredfowler <jared.a.fowler@gmail.com>"]
 
 [dependencies]
 reqwest = "0.8.5"
+curl = "0.4.12"
 clap = {version= "~2.31.2", features = ["yaml"]}
 
 [lib]
