@@ -1,6 +1,4 @@
-extern crate request;
-
-use std::collections::HashMap;
+extern crate reqwest;
 
 pub struct GhSign {
     pub username: String
@@ -8,18 +6,16 @@ pub struct GhSign {
 
 impl GhSign {
 
-    fn fetch_key () {
-        let username = matches.value_of("username").unwrap();
+    fn fetch_key (self) {
         let base_url = "https://github.com/";
-        let request_url = format!("{}{}.keys", base_url, username);
+        let request_url = format!("{}{}.keys", base_url, self.username);
 
-        let mut headers: HashMap<String, String> = HashMap::new();
-        headers.insert("Connection".to_string(), "close".to_string());
+        let res = reqwest::get(request_url);
+        return res;
+    }
 
-        let res = match request::get(&request_url, &mut headers) {
-            Ok(res) => res,
-            Err(err) => { println!("Error no keys: {}", err); return; }
-        };
+    pub fn sign (self) {
+        let pk = self.fetch_key();
+        println!("pk : {:?}", pk);
     }
 }
-
