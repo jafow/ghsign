@@ -2,7 +2,6 @@ extern crate reqwest;
 extern crate curl;
 
 use curl::easy::Easy;
-use std::io::{stdout, Write};
 
 pub struct GhSign {
     pub username: String
@@ -10,16 +9,24 @@ pub struct GhSign {
 
 impl GhSign {
 
-    fn fetch_key (self) {
+    fn fetch_key (self) -> Vec<u8> {
         let base_url = "https://github.com/";
         let request_url = format!("{}{}.keys", base_url, self.username);
 
+        let mut res = Vec::new();
         let mut easy = Easy::new();
+
         easy.url(&request_url).unwrap();
-        easy.write_function(|data| {
-            Ok(stdout().write(data).unwrap())
-        }).unwrap();
-        easy.perform().unwrap();
+        {
+            let mut trans = easy.transfer();
+            trans.write_function(|data| {
+                res.extend_from_slice(data);
+                Ok(data.len())
+            }).unwrap();
+
+            trans.perform().unwrap();
+        }
+        res
     }
 
     pub fn sign (self) {
